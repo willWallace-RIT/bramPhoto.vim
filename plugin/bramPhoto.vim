@@ -1,20 +1,24 @@
 
 "autocmd f * "You have offered respect to shomen Bram"
-
 " --- Custom Quit Function ---"
 function! DelayedQuit(command)
     " 1. Diplay the message
-    echo "You have bowed to shomen Bram as you successfully found a way to exit Vim and are doing so."
+    if bufnr('$') <= 1
+      echo "You have bowed to shomen Bram as you successfully found a way to exit Vim and are doing so."
+    endif
     
     " The redraw! command forces Vim to update the screen 
     " so the echo message is visible before the timer starts.
     redraw! 
-
-    echo "You have bowed to shomen Bram as you successfully found a way to exit Vim and are doing so."
+    if bufnr('$') <= 1
+      echo "You have bowed to shomen Bram as you successfully found a way to exit Vim and are doing so."
     " 2. Start a timer to run the quit command
     " The time is in milliseconds (1500ms = 1.5 seconds).
     " The command is executed *after* the delay.
-    call timer_start(1500, {-> execute(a:command, '')}, {'repeat': 1})
+     call timer_start(1500, {-> execute(a:command, '')}, {'repeat': 1})
+    else
+     call timer_start(0, {-> execute(a:command, '')}, {'repeat': 1})
+    endif
 endfunction
 
 " --- Remap Quit Commands ---
